@@ -2,12 +2,12 @@
 
 # args
 MSG=${1-'deploy from git'}
-MAINFILE=".php"
+MAINFILE="wp-erp-pdf.php"
 
 # paths
 SRC_DIR=$(git rev-parse --show-toplevel)
 DIR_NAME=$(basename $SRC_DIR)
-DEST_DIR=~/svn/wp-plugins/$DIR_NAME
+DEST_DIR=~/Development/svn/wp-plugins/$DIR_NAME
 TRUNK="$DEST_DIR/trunk"
 
 # make sure we're deploying from the right dir

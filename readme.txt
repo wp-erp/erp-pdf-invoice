@@ -1,10 +1,10 @@
 === PDF invoice for WP ERP ===
-Contributors: weDevs
+Contributors: tareq1988, wedevs, manikmist09
 Tags: erp pdf, erp, wperp, erp accounting,
 Requires at least: 3.6.0
 Tested up to: 4.9.4
 Requires PHP: 5.6
-Stable tag: trunk
+Stable tag: 1.0.0
 License: GPLv2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
