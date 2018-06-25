@@ -29,6 +29,7 @@ class PDF_Invoicer extends tFPDF {
 	public $items;
 	public $totals;
 	public $badge;
+	public $memo;
 	public $addText;
 	public $footernote;
 	public $dimensions;
@@ -193,6 +194,10 @@ class PDF_Invoicer extends tFPDF {
 		$this->Body();
 		$this->AliasNbPages();
 		$this->Output( $name, $destination );
+	}
+
+	public function set_memo( $memo ) {
+		$this->memo = $memo;
 	}
 
 	/*******************************************************************************
@@ -400,6 +405,8 @@ class PDF_Invoicer extends tFPDF {
 				$this->Ln( $this->columnSpacing );
 			}
 		}
+
+		$this->Cell( $this->columnSpacing, $cellHeight, $this->memo, 0, 0, 'L', 0 );
 
 		$badgeX = $this->getX();
 		$badgeY = $this->getY();
