@@ -344,7 +344,7 @@ class PDF_Invoicer extends tFPDF {
 
 				if ( isset( $item[0][1] ) ) {
 
-					$calculated_height = new WeDevs_PDF_Invoicer();
+					$calculated_height = new PDF_Invoicer();
 					$calculated_height->addPage();
 					$calculated_height->setXY(0,0);
 					$calculated_height->setFont($this->font, '', 7);
