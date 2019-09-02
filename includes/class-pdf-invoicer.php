@@ -29,6 +29,7 @@ class PDF_Invoicer extends tFPDF {
 	public $items;
 	public $totals;
 	public $badge;
+    public $particulars;
 	public $addText;
 	public $footernote;
 	public $dimensions;
@@ -154,9 +155,7 @@ class PDF_Invoicer extends tFPDF {
 		$this->flipflop = true;
 	}
 
-	public function add_item(  ) {
-
-		$item = func_get_args();
+	public function add_item( $item = [] ) {
 
 		$this->items[] = $item;
 	}
@@ -178,6 +177,10 @@ class PDF_Invoicer extends tFPDF {
 		$paragraph       = $this->br2nl( $paragraph );
 		$this->addText[] = [ 'paragraph', $paragraph ];
 	}
+
+    public function set_particulars( $particulars) {
+        $this->particulars = $particulars;
+    }
 
 	public function add_badge( $badge ) {
 		$this->badge = $badge;
@@ -223,21 +226,20 @@ class PDF_Invoicer extends tFPDF {
 		//Calculate position of strings
 		$this->SetFont( $this->font, 'B', 9 );
 
-		$temp_ref = [];
-
-		foreach ( $this->reference as $ref ) {
-			foreach ( $ref as $key => $value ) {
-				if ( 'title' == $key ) {
-					$temp_ref[] = $value;
-				}
-			}
-		}
-
-		$max_ref_width =  max( array_map( [$this, 'GetStringWidth'], $temp_ref ) );
-
-		$positionX = $this->document['w'] - $this->margins['l'] - $this->margins['r'] - $max_ref_width - 35;
-
 		if ( $this->reference ) {
+            $temp_ref = [];
+
+            foreach ( $this->reference as $ref ) {
+                foreach ( $ref as $key => $value ) {
+                    if ( 'title' == $key ) {
+                        $temp_ref[] = $value;
+                    }
+                }
+            }
+
+            $max_ref_width =  max( array_map( [$this, 'GetStringWidth'], $temp_ref ) );
+
+            $positionX = $this->document['w'] - $this->margins['l'] - $this->margins['r'] - $max_ref_width - 35;
 
 			if ( is_array( $this->reference ) ) {
 
@@ -293,7 +295,9 @@ class PDF_Invoicer extends tFPDF {
 			$this->SetFont( $this->font, '', 8 );
 			$this->SetTextColor( 100, 100, 100 );
 			$this->Ln( 7 );
-			for ( $i = 1; $i < max( count( $this->from ), count( $this->to ) ); $i++ ) {
+			$from_len = is_array( $this->from ) ? count( $this->from) : 1;
+			$to_len = is_array( $this->to ) ? count( $this->to) : 1;
+			for ( $i = 1; $i < max( $from_len, $to_len ); $i++ ) {
 				$this->Cell( $width, $lineheight, iconv( "UTF-8", "ISO-8859-1", isset( $this->from[$i] ) ? $this->from[$i] : '' ), 0, 0, 'L' );
 				$this->Cell( 0, $lineheight, iconv( "UTF-8", "ISO-8859-1", isset( $this->to[$i] ) ? $this->to[$i] : '' ), 0, 0, 'L' );
 				$this->Ln( 5 );
@@ -340,15 +344,17 @@ class PDF_Invoicer extends tFPDF {
 
 		if ( $this->items ) {
 
-			foreach ( $this->items as $item ) {
+		    $new_items = $this->items;
 
-				if ( isset( $item[0][1] ) ) {
+			foreach ( $new_items as $item ) {
 
-					$calculated_height = new WeDevs_PDF_Invoicer();
+				if ( isset( $item['0'] ) ) {
+
+					$calculated_height = new PDF_Invoicer();
 					$calculated_height->addPage();
 					$calculated_height->setXY(0,0);
 					$calculated_height->setFont($this->font, '', 7);
-					$calculated_height->MultiCell($this->first_column_width, 3, iconv('UTF-8', 'ISO-8859-1', $item[0][1]), 0, 'L', 1 );
+					$calculated_height->MultiCell($this->first_column_width, 3, iconv('UTF-8', 'ISO-8859-1', $item['0'] ), 0, 'L', false );
 					$page_height = $this->document['h'] - $this->GetY() - $this->margins['t'] - $this->margins['t'];
 
 					if ( $page_height < 0 ) {
@@ -366,23 +372,7 @@ class PDF_Invoicer extends tFPDF {
 						$this->SetFillColor( $bgcolor, $bgcolor, $bgcolor );
 						$this->Cell( 1, $cHeight, '', 0, 0, 'L', 1 );
 						$x = $this->GetX();
-						$this->Cell( $this->first_column_width, $cHeight, iconv( 'UTF-8', 'ISO-8859-1', $column[0] ), 0, 0, 'L', 1 );
-
-						if ( isset( $column[1] ) ) {
-							$resetX = $this->GetX();
-							$resetY = $this->GetY();
-							$this->SetTextColor( 120, 120, 120 );
-							$this->SetXY( $x, $this->GetY() + 8 );
-							$this->SetFont( $this->font, '', 7 );
-							$this->MultiCell( $this->first_column_width, 3, iconv( 'UTF-8', 'ISO-8859-1', $column[1] ), 0, 'L', 1 );
-							$newY = $this->GetY();
-							$cHeight = $newY - $resetY + 2;
-							$this->SetXY( $x - 1, $resetY );
-							$this->Cell( 1, $cHeight, '', 0, 0, 'L', 1);
-							$this->SetXY( $x, $newY );
-							$this->Cell( $this->first_column_width, 2, '', 0, 0, 'L', 1 );
-							$this->SetXY( $resetX, $resetY );
-						}
+						$this->Cell( $this->first_column_width, $cHeight, iconv( 'UTF-8', 'ISO-8859-1', $column ), 0, 0, 'L', 1 );
 
 						$this->Cell( $this->columnSpacing, $cHeight, '', 0, 0, 'R', 0 );
 						continue;
@@ -393,7 +383,6 @@ class PDF_Invoicer extends tFPDF {
 					$this->SetFillColor($bgcolor, $bgcolor, $bgcolor);
 					$this->Cell( $width_other, $cHeight, $column, 0, 0, 'C', 1 );
 					$this->Cell( $this->columnSpacing, $cHeight, '', 0, 0, 'R', 0 );
-//					$this->Cell( $this->columnSpacing, $cHeight, '', 0, 0, 'R', 0 );
 				}
 
 				$this->Ln();
@@ -407,6 +396,7 @@ class PDF_Invoicer extends tFPDF {
 		//Add totals
 		if ( $this->totals ) {
 			foreach ( $this->totals as $total ) {
+                $this->SetFont( $this->font, 'b', 8 );
 				$this->SetTextColor( 50, 50, 50 );
 				$this->SetFillColor( $bgcolor, $bgcolor, $bgcolor );
 				$this->Cell( 1 + $this->first_column_width, $cellHeight, '', 0, 0, 'L', 0 );
@@ -464,6 +454,11 @@ class PDF_Invoicer extends tFPDF {
 				$this->Ln( 18 );
 			}
 		}
+
+        //Set Particulars
+        if ( isset( $this->particulars ) ) {
+            $this->Cell( $this->columnSpacing, $cellHeight, $this->particulars, 0, 0, 'L', 0 );
+        }
 
 		//Add information
 		foreach ( $this->addText as $text ) {
