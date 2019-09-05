@@ -132,7 +132,12 @@ class WP_ERP_PDF {
     private function includes() {
         require WPERP_PDF_INCLUDES . '/functions.php';
         require WPERP_PDF_INCLUDES . '/class-tfpdf.php';
-        require WPERP_PDF_INCLUDES . '/class-pdf-invoicer.php';
+
+        if ( erp_pdf_invoice_need_update() ) {
+            require WPERP_PDF_INCLUDES . '/class-pdf-invoicer.php';
+        } else {
+            require WPERP_PDF_INCLUDES . '/deprecated/class-pdf-invoicer.php';
+        }
     }
 
     /**
