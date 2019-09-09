@@ -3,7 +3,7 @@
  * Plugin Name: WP ERP - PDF Invoice
  * Plugin URI:  http://wperp.com
  * Description: PDF invoice for WP ERP
- * Version:     1.1.0
+ * Version:     1.1.1
  * Author:      weDevs
  * Author URI:  http://wedevs.com
  * Donate link: http://wperp.com
@@ -48,7 +48,7 @@ class WP_ERP_PDF {
      * @since 1.0.0
      * @var  string
      */
-    public $version = '1.1.0';
+    public $version = '1.1.1';
 
     /**
      * Minimum PHP version required
@@ -132,7 +132,12 @@ class WP_ERP_PDF {
     private function includes() {
         require WPERP_PDF_INCLUDES . '/functions.php';
         require WPERP_PDF_INCLUDES . '/class-tfpdf.php';
-        require WPERP_PDF_INCLUDES . '/class-pdf-invoicer.php';
+
+        if ( erp_pdf_invoice_need_update() ) {
+            require WPERP_PDF_INCLUDES . '/class-pdf-invoicer.php';
+        } else {
+            require WPERP_PDF_INCLUDES . '/deprecated/class-pdf-invoicer.php';
+        }
     }
 
     /**
