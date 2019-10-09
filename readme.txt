@@ -4,7 +4,7 @@ Tags: erp pdf, erp, wperp, erp accounting,
 Requires at least: 3.6.0
 Tested up to: 5.2.3
 Requires PHP: 5.6
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -39,6 +39,9 @@ WP ERP PDF extension adds the ability to export any payment or invoice from WP E
 
 = 1.1.1 =
 * Fix backward compatiblity issue
+
+= 1.1.2 =
+* Add deprecated folder
 
 == Upgrade Notice ==
 No Upgrade notice at this time
