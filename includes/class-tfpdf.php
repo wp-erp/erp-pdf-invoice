@@ -171,8 +171,35 @@ class tFPDF
         // Set default PDF version number
         $this->PDFVersion = '1.3';
 
-        $this->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
-        $this->AddFont('DejaVu','B','DejaVuSansCondensed-Bold.ttf',true);
+        $this->add_more_fonts();
+    }
+
+    private function add_more_fonts() {
+        /**
+         * Fonts to be added to use later in ERP PDF Invoice. The fonts must be placed in 'font' or 'font/unifont'
+         * before using them.
+         */
+        $fonts_to_be_added = apply_filters(
+            'erp_pdf_fonts',
+            array(
+                array(
+                    'family' => 'DejaVu',
+                    'style'  => '',
+                    'file'   => 'DejavuSansCondensed.ttf',
+                    'uni'    => true,
+                ),
+                array(
+                    'family' => 'DejaVu',
+                    'style'  => 'B',
+                    'file'   => 'DejavuSansCondensed-Bold.ttf',
+                    'uni'    => true,
+                ),
+            )
+        );
+
+        foreach ( $fonts_to_be_added as $font ) {
+            $this->AddFont( $font['family'], $font['style'], $font['file'], $font['uni'] );
+        }
     }
 
     function SetMargins($left, $top, $right=null)
