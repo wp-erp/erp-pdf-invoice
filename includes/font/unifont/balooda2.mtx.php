@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-75;
 $ut=50;
-$ttffile='C:\Users\nayon\Music\woocomproj\wordpress\wp-content\plugins\erp-pdf-invoice\includes/font/unifont/BalooDa2.ttf';
+$ttffile=WPERP_PDF_INCLUDES . '/font/unifont/BalooDa2.ttf';
 $originalsize=457232;
 $fontkey='balooda2';
 ?>
