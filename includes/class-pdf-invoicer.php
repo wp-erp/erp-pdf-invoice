@@ -52,7 +52,7 @@ class PDF_Invoicer extends tFPDF {
         /**
          * A filter to choose a font to work with at the beginning.
          */
-		$this->font = apply_filters( 'erp_pdf_select_font', 'helvetica' );
+		$this->font               = apply_filters( 'erp_pdf_invoice_apply_font', 'helvetica' );
 		$this->items              = [];
 		$this->totals             = [];
 		$this->addText            = [];
