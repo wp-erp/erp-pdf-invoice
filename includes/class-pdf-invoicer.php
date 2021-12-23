@@ -64,7 +64,7 @@ class PDF_Invoicer extends tFPDF {
 
         //add Arial Unicode MS font
         $this->AddFont('arialums','','arial-unicode-ms-reg.ttf',true);
-        $this->AddFont('arialums','B','arial-unicode-ms-reg.ttf',true); //using regular instead of bold, the bold version is paid
+        //$this->AddFont('arialums','B','arial-unicode-ms-reg.ttf',true); //using regular instead of bold, the bold version is paid
 	}
 
 	public function set_type( $title ) {
@@ -228,7 +228,7 @@ class PDF_Invoicer extends tFPDF {
 
 		$lineheight = 5;
 		//Calculate position of strings
-		$this->SetFont( $this->font, 'B', 9 );
+		$this->SetFont( $this->font, '', 9 );
 
 		if ( $this->reference ) {
             $temp_ref = [];
@@ -250,7 +250,7 @@ class PDF_Invoicer extends tFPDF {
 				foreach ( $this->reference as $data ) {
 
 					$this->Cell( $positionX, $lineheight );
-					$this->SetFont( $this->font, 'B', 9 );
+					$this->SetFont( $this->font, '', 9 );
 					$this->SetTextColor( $this->color[0], $this->color[1], $this->color[2] );
 					$this->Cell( 32, $lineheight, $data['title'] . ':', 0, 0, 'L' );
 					$this->SetTextColor( 50, 50, 50 );
@@ -271,7 +271,7 @@ class PDF_Invoicer extends tFPDF {
 			$this->Ln( 5 );
 			$this->SetTextColor( $this->color[0], $this->color[1], $this->color[2] );
 			$this->SetDrawColor( $this->color[0], $this->color[1], $this->color[2] );
-			$this->SetFont( $this->font, 'B', 10 );
+			$this->SetFont( $this->font, '', 10 );
 			$width = ( $this->document['w'] - $this->margins['l'] - $this->margins['r'] ) / 2;
 			if ( isset( $this->flipflop ) ) {
 				$to              = $this->to_title;
@@ -293,7 +293,7 @@ class PDF_Invoicer extends tFPDF {
 			//Information
 			$this->Ln( 5 );
 			$this->SetTextColor( 50, 50, 50 );
-			$this->SetFont( $this->font, 'B', 10 );
+			$this->SetFont( $this->font, '', 10 );
 			$this->Cell( $width, $lineheight, $this->from[0], 0, 0, 'L' );
 			$this->Cell( 0, $lineheight, $this->to[0], 0, 0, 'L' );
 			$this->SetFont( $this->font, '', 8 );
@@ -318,7 +318,7 @@ class PDF_Invoicer extends tFPDF {
 			$width_other = ( $this->document['w'] - $this->margins['l'] - $this->margins['r'] - $this->first_column_width - ( $this->columns * $this->columnSpacing ) ) / ( $this->columns - 1 );
 			$this->SetTextColor( 50, 50, 50 );
 			$this->Ln( 12 );
-			$this->SetFont( $this->font, 'B', 9 );
+			$this->SetFont( $this->font, '', 9 );
 
 			foreach ( $this->table_headers as $key => $header ) {
 				if ( 0 == $key ) {
@@ -371,7 +371,7 @@ class PDF_Invoicer extends tFPDF {
 				foreach ( $item as $key => $column ) {
 
 					if ( 0 == $key ) {
-						$this->SetFont( $this->font, 'b', 8 );
+						$this->SetFont( $this->font, '', 8 );
 						$this->SetTextColor(50, 50, 50 );
 						$this->SetFillColor( $bgcolor, $bgcolor, $bgcolor );
 						$this->Cell( 1, $cHeight, '', 0, 0, 'L', 1 );
@@ -400,7 +400,7 @@ class PDF_Invoicer extends tFPDF {
 		//Add totals
 		if ( $this->totals ) {
 			foreach ( $this->totals as $total ) {
-                $this->SetFont( $this->font, 'b', 8 );
+                $this->SetFont( $this->font, '', 8 );
 				$this->SetTextColor( 50, 50, 50 );
 				$this->SetFillColor( $bgcolor, $bgcolor, $bgcolor );
 				$this->Cell( 1 + $this->first_column_width, $cellHeight, '', 0, 0, 'L', 0 );
@@ -413,11 +413,11 @@ class PDF_Invoicer extends tFPDF {
 					$this->SetTextColor( 255, 255, 255 );
 					$this->SetFillColor( $this->color[0], $this->color[1], $this->color[2] );
 				}
-				$this->SetFont( $this->font, 'b', 8 );
+				$this->SetFont( $this->font, '', 8 );
 				$this->Cell( 1, $cellHeight, '', 0, 0, 'L', 1 );
 				$this->Cell( $width_other - 1, $cellHeight, $total['name'], 0, 0, 'L', 1 );
 				$this->Cell( $this->columnSpacing, $cellHeight, '', 0, 0, 'L', 0 );
-				$this->SetFont( 'arialums', 'b', 8 );
+				$this->SetFont( 'arialums', '', 8 );
 				$this->SetFillColor( $bgcolor, $bgcolor, $bgcolor );
 				if ( $total['colored'] ) {
 					$this->SetTextColor( 255, 255, 255 );
@@ -447,7 +447,7 @@ class PDF_Invoicer extends tFPDF {
 			$this->SetLineWidth( 0.4 );
 			$this->SetDrawColor( $this->color[0], $this->color[1], $this->color[2] );
 			$this->setTextColor( $this->color[0], $this->color[1], $this->color[2] );
-			$this->SetFont( $this->font, 'b', 15 );
+			$this->SetFont( $this->font, '', 15 );
 			$this->Rotate( 10, $this->getX(), $this->getY() );
 			$this->Rect( $this->GetX(), $this->GetY(), $this->GetStringWidth( $badge ) + 2, 10 );
 			$this->Write( 10, $badge );
@@ -467,7 +467,7 @@ class PDF_Invoicer extends tFPDF {
 		//Add information
 		foreach ( $this->addText as $text ) {
 			if ( $text[0] == 'title' ) {
-				$this->SetFont( $this->font, 'b', 9 );
+				$this->SetFont( $this->font, '', 9 );
 				$this->SetTextColor( 50, 50, 50 );
 				$this->Cell( 0, 10, $text[1], 0, 0, 'L', 0 );
 				$this->Ln();
