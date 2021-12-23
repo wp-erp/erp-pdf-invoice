@@ -180,7 +180,7 @@ class tFPDF
          * before using them.
          */
         $fonts_to_be_added = apply_filters(
-            'erp_pdf_fonts',
+            'erp_pdf_invoice_fonts',
             array(
                 array(
                     'family' => 'DejaVu',
@@ -1295,7 +1295,7 @@ class tFPDF
 
     function _getfontpath()
     {
-        return $this->fontpath;
+        return apply_filters( 'erp_pdf_invoice_font_path', $this->fontpath );
     }
 
     function _checkoutput()
