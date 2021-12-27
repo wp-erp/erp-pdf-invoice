@@ -49,10 +49,7 @@ class PDF_Invoicer extends tFPDF {
 	// Constructor
 	public function __construct( $size = 'A4', $currency = '$', $language = 'en' ) {
 
-    /*
-     * A filter to choose a font to work with at the beginning.
-     */
-		$this->font               = apply_filters( 'erp_pdf_invoice_apply_font', 'arialums' );
+		$this->font = 'arialums';
 		$this->items              = [];
 		$this->totals             = [];
 		$this->addText            = [];
