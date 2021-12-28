@@ -31,20 +31,24 @@ WP ERP PDF extension adds the ability to export any payment or invoice from WP E
 
 == Changelog ==
 
-= 1.0.0 =
-* First release
+= v1.2.0 -> December 29, 2021 =
+**New:** Arial Unicode MS Regular font integration to support wide range of languages
+**Fix:** BDT currency symbol was not rendered
 
-= 1.1.0 =
-* Compatible with new accounting module
-
-= 1.1.1 =
-* Fix backward compatiblity issue
+= 1.1.3 =
+* Fix wrong class name
 
 = 1.1.2 =
 * Add deprecated folder
 
-= 1.1.3 =
-* Fix wrong class name
+= 1.1.1 =
+* Fix backward compatiblity issue
+
+= 1.1.0 =
+* Compatible with new accounting module
+
+= 1.0.0 =
+* First release
 
 == Upgrade Notice ==
 No Upgrade notice at this time

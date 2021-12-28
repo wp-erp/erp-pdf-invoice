@@ -199,12 +199,12 @@ module.exports = function(grunt) {
         main: {
             options: {
                 mode: 'zip',
-                    archive: './build/wp-erp-invoice-' + pkg.version + '.zip'
+                    archive: './build/erp-pdf-invoice-' + pkg.version + '.zip'
             },
             expand: true,
                 cwd: 'build/',
                 src: ['**/*'],
-                dest: 'wp-erp-invoice'
+                dest: 'erp-pdf-invoice'
         }
     },
     server: {
