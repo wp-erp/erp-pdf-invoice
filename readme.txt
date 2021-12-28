@@ -2,9 +2,9 @@
 Contributors: tareq1988, wedevs, manikmist09
 Tags: erp pdf, erp, wperp, erp accounting,
 Requires at least: 3.6.0
-Tested up to: 5.2.4
+Tested up to: 5.8.2
 Requires PHP: 5.6
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -32,6 +32,7 @@ WP ERP PDF extension adds the ability to export any payment or invoice from WP E
 == Changelog ==
 
 = v1.2.0 -> December 29, 2021 =
+
 **New:** Arial Unicode MS Regular font integration to support wide range of languages
 **Fix:** BDT currency symbol was not rendered
 
