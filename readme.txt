@@ -1,5 +1,5 @@
 === PDF invoice for WP ERP ===
-Contributors: tareq1988, wedevs, manikmist09
+Contributors: tareq1988, wedevs, manikmist09, ratulhasan
 Tags: erp pdf, erp, wperp, erp accounting,
 Requires at least: 3.6.0
 Tested up to: 6.3.1
