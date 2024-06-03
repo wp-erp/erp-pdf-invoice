@@ -13,7 +13,7 @@ $desc=array (
 );
 $up=-100;
 $ut=50;
-$ttffile='/Users/ratulhasan/Sites/erp/wp-content/plugins/erp-pdf-invoice/includes/font/unifont/arial-unicode-ms-reg.ttf';
+$ttffile= WPERP_PDF_INCLUDES . '/font/unifont/arial-unicode-ms-reg.ttf';
 $originalsize=23275812;
 $fontkey='arialums';
 ?>
