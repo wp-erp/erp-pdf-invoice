@@ -2,7 +2,7 @@
 # This file is distributed under the GPLv2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP ERP - PDF Invoice 1.2.1\n"
+"Project-Id-Version: WP ERP - PDF Invoice 1.2.2\n"
 "Report-Msgid-Bugs-To: http://pluginever.com/support/\n"
 "POT-Creation-Date: 2023-09-26 10:32:08+00:00\n"
 "MIME-Version: 1.0\n"

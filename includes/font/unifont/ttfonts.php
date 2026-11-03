@@ -68,6 +68,21 @@ var $underlineThickness;
 var $charWidths;
 var $defaultWidth;
 var $maxStrLenRead;
+var $TTCFonts;
+var $restrictedUse;
+
+var $maxUniChar;
+
+var $codeToGlyph;
+
+var $glyphdata;
+
+var $version;
+
+var $sFamilyClass;
+
+var $sFamilySubClass;
+
 
 	function __construct() {
 		$this->maxStrLenRead = 200000;	// Maximum size of glyf table to read in as string (otherwise reads each glyph from file)
@@ -598,6 +613,7 @@ var $maxStrLenRead;
 		}
 
 		ksort($subsetCharToGlyph);
+		$codeToGlyph = array();
 		foreach($subsetCharToGlyph AS $uni => $originalGlyphIdx) {
 			$codeToGlyph[$uni] = $glyphSet[$originalGlyphIdx] ;
 		}

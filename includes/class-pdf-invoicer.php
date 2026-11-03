@@ -46,6 +46,15 @@ class PDF_Invoicer extends tFPDF {
 	protected $JStart = [ "A" => 103, "B" => 104, "C" => 105 ];
 	protected $JSwap  = [ "A" => 101, "B" => 100, "C" => 99 ];
 
+    public $maxImageDimensions;
+
+    public $productsEnded;
+
+    public $flipflop;
+
+    // Set on the scratch instance Body() uses to measure row heights, so it skips the header and footer
+    public $measure_only = false;
+
 	// Constructor
 	public function __construct( $size = 'A4', $currency = '$', $language = 'en' ) {
 
@@ -54,6 +63,7 @@ class PDF_Invoicer extends tFPDF {
 		$this->totals             = [];
 		$this->addText            = [];
 		$this->maxImageDimensions = [ 230, 130 ];
+		$this->l                  = [ 'page' => __( 'Page', 'erp_pdf' ) ];
 
 		$this->setDocumentSize( $size );
 		$this->set_theme_color( "#222222" );
@@ -209,6 +219,10 @@ class PDF_Invoicer extends tFPDF {
 	 *******************************************************************************/
 	public function Header() {
 
+		if ( $this->measure_only ) {
+			return;
+		}
+
 		if ( isset( $this->logo ) ) {
 			$this->Image( $this->logo, $this->margins['l'], $this->margins['t'], $this->dimensions[0], $this->dimensions[1] );
 		}
@@ -223,7 +237,7 @@ class PDF_Invoicer extends tFPDF {
 		//Title
 		$this->SetTextColor( 0, 0, 0 );
 		$this->SetFont( $this->font, '', 20 );
-		$this->Cell( 0, 5, strtoupper( $this->title ), 0, 1, 'C' );
+		$this->Cell( 0, 5, strtoupper( (string) $this->title ), 0, 1, 'C' );
 		$this->Ln( 5 );
 
 		$lineheight = 5;
@@ -263,7 +277,7 @@ class PDF_Invoicer extends tFPDF {
 		//First page
 		if ( $this->PageNo() == 1 ) {
 
-			if ( ( $this->margins['t'] + $this->dimensions[1] ) > $this->GetY() ) {
+			if ( isset( $this->margins['t'] ) && isset( $this->dimensions[1] ) && ( $this->margins['t'] + $this->dimensions[1] ) > $this->GetY() ) {
 				$this->SetY( $this->margins['t'] + $this->dimensions[1] + 10 );
 			} else {
 				$this->SetY( $this->GetY() + 10 );
@@ -294,8 +308,8 @@ class PDF_Invoicer extends tFPDF {
 			$this->Ln( 5 );
 			$this->SetTextColor( 50, 50, 50 );
 			$this->SetFont( $this->font, '', 10 );
-			$this->Cell( $width, $lineheight, $this->from[0], 0, 0, 'L' );
-			$this->Cell( 0, $lineheight, $this->to[0], 0, 0, 'L' );
+			$this->Cell( $width, $lineheight, isset( $this->from[0] ) ? $this->from[0] : '', 0, 0, 'L' );
+			$this->Cell( 0, $lineheight, isset( $this->to[0] ) ? $this->to[0] : '', 0, 0, 'L' );
 			$this->SetFont( $this->font, '', 8 );
 			$this->SetTextColor( 100, 100, 100 );
 			$this->Ln( 7 );
@@ -355,6 +369,7 @@ class PDF_Invoicer extends tFPDF {
 				if ( isset( $item['0'] ) ) {
 
 					$calculated_height = new PDF_Invoicer();
+					$calculated_height->measure_only = true;
 					$calculated_height->addPage();
 					$calculated_height->setXY(0,0);
 					$calculated_height->setFont($this->font, '', 7);
@@ -486,6 +501,10 @@ class PDF_Invoicer extends tFPDF {
 	}
 
 	function Footer() {
+
+		if ( $this->measure_only ) {
+			return;
+		}
 
 		$this->SetY( -$this->margins['t'] );
 		$this->SetFont( $this->font, '', 8 );
@@ -700,11 +719,14 @@ class PDF_Invoicer extends tFPDF {
 		}
 		$this->Cset = "0123456789" . chr( 206 );
 
+		$this->SetFrom = [ "A" => "", "B" => "" ];
+		$this->SetTo   = [ "A" => "", "B" => "" ];
+
 		for ( $i = 0; $i < 96; $i++ ) {                                                   // convertisseurs des jeux A & B
-			@$this->SetFrom["A"] .= chr( $i );
-			@$this->SetFrom["B"] .= chr( $i + 32 );
-			@$this->SetTo["A"] .= chr( ( $i < 32 ) ? $i + 64 : $i - 32 );
-			@$this->SetTo["B"] .= chr( $i );
+			$this->SetFrom["A"] .= chr( $i );
+			$this->SetFrom["B"] .= chr( $i + 32 );
+			$this->SetTo["A"] .= chr( ( $i < 32 ) ? $i + 64 : $i - 32 );
+			$this->SetTo["B"] .= chr( $i );
 		}
 		for ( $i = 96; $i < 107; $i++ ) {                                                 // contrôle des jeux A & B
 			@$this->SetFrom["A"] .= chr( $i + 104 );

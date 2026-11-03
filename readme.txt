@@ -2,9 +2,9 @@
 Contributors: tareq1988, wedevs, manikmist09, ratulhasan
 Tags: erp pdf, erp, wperp, erp accounting,
 Requires at least: 3.6.0
-Tested up to: 6.3.1
-Requires PHP: 5.6
-Stable tag: 1.2.1
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 1.2.2
 License: GPLv2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -30,6 +30,13 @@ WP ERP PDF extension adds the ability to export any payment or invoice from WP E
 
 
 == Changelog ==
+
+= v1.2.2 -> November 3, 2026 =
+
+- 🛠️ [FIX] PDF invoices failed with a fatal error on PHP 8.0 and above (invoice email attachments and "Send Mail").
+- 🛠️ [FIX] PHP 8.1 - 8.4 deprecation notices and warnings while generating PDFs.
+- 🛠️ [FIX] Footer now shows the "Page" label ("Page 1 of 2").
+- 🔧 [UPDATE] Requires PHP 7.4 or higher. Tested with PHP 7.4 - 8.4 and WordPress 7.1.
 
 = v1.2.1 -> September 26, 2023 =
 
