@@ -1,0 +1,40 @@
+name: Deploy to WordPress.org
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to deploy (e.g. v1.2.2)"
+        required: true
+permissions:
+  contents: write
+jobs:
+  tag:
+    name: Deploy plugin for new Tag
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - name: Set version from tag
+        env:
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: echo "VERSION=${TAG#v}" >> "$GITHUB_ENV"
+      - name: Generate zip
+        uses: 10up/action-wordpress-plugin-build-zip@stable
+        with:
+          retention-days: 5
+        env:
+          SLUG: erp-pdf-invoice
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          dry-run: false
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: erp-pdf-invoice
+          ASSETS_DIR: .wordpress-org

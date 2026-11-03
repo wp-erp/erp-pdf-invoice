@@ -1,0 +1,20 @@
+/.git
+/.github
+/.wordpress-org
+/node_modules
+/build
+
+# Dev/config files
+.distignore
+.gitignore
+.gitattributes
+.editorconfig
+.jshintrc
+.svnignore
+Gruntfile.js
+package.json
+package-lock.json
+composer.json
+phpcs.xml.dist
+plugin-deploy.sh
+README.md
