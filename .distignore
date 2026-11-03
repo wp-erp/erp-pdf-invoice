@@ -3,6 +3,7 @@
 /.wordpress-org
 /node_modules
 /build
+/zipfile
 
 # Dev/config files
 .distignore
@@ -18,3 +19,4 @@ composer.json
 phpcs.xml.dist
 plugin-deploy.sh
 README.md
+erp-pdf-invoice.zip
