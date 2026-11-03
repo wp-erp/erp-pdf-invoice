@@ -3,7 +3,7 @@
  * Plugin Name: WP ERP - PDF Invoice
  * Plugin URI:  http://wperp.com
  * Description: PDF invoice for WP ERP
- * Version:     1.2.1
+ * Version:     1.2.2
  * Author:      weDevs
  * Author URI:  http://wedevs.com
  * Donate link: http://wperp.com
@@ -49,7 +49,7 @@ class WP_ERP_PDF {
      * @since 1.0.0
      * @var  string
      */
-    public $version = '1.2.1';
+    public $version = '1.2.2';
 
     /**
      * Minimum PHP version required
