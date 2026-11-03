@@ -14,7 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Skip until the readme's Stable tag is deployed, so trunk never points at a missing tag
+      - name: Check stable tag is on WordPress.org
+        id: stable
+        run: |
+          TAG=$(grep -m 1 -E "^Stable tag:" readme.txt | awk '{print $NF}' | tr -d '\r')
+          if curl -sfI "https://plugins.svn.wordpress.org/erp-pdf-invoice/tags/$TAG/" > /dev/null; then
+            echo "deployed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Stable tag $TAG not on WordPress.org yet, skipping"
+          fi
       - name: WordPress.org plugin asset/readme update
+        if: steps.stable.outputs.deployed == 'true'
         uses: 10up/action-wordpress-plugin-asset-update@stable
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
