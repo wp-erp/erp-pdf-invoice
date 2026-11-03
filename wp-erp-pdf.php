@@ -8,6 +8,7 @@
  * Author URI:  http://wedevs.com
  * Donate link: http://wperp.com
  * License:     GPLv2+
+ * Requires PHP: 7.4
  * Text Domain: erp_pdf
  * Domain Path: /languages
  */
@@ -55,7 +56,7 @@ class WP_ERP_PDF {
      *
      * @var string
      */
-    private $min_php = '5.4.0';
+    private $min_php = '7.4';
 
 
     /**
@@ -173,7 +174,7 @@ class WP_ERP_PDF {
 
         $min_php = $min_php ? $min_php : $this->min_php;
 
-        if ( version_compare( PHP_VERSION, $min_php, '<=' ) ) {
+        if ( version_compare( PHP_VERSION, $min_php, '<' ) ) {
             return false;
         }
 

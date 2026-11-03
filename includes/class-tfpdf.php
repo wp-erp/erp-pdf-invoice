@@ -392,7 +392,7 @@ class tFPDF
     function PageNo()
     {
         // Get current page number
-        return $this->page;
+        return (isset($this->page) ? $this->page : 0);
     }
 
     function SetDrawColor($r, $g=null, $b=null)
@@ -1261,10 +1261,6 @@ class tFPDF
         // Check mbstring overloading
         if(ini_get('mbstring.func_overload') & 2)
             $this->Error('mbstring overloading must be disabled');
-        // Ensure runtime magic quotes are disabled
-        if (get_magic_quotes_runtime()) {
-            ini_set('magic_quotes_runtime', 0);
-        }
     }
 
     function _getfontpath()
@@ -2263,13 +2259,14 @@ class tFPDF
         if ($setbom) {
             $outstr .= "\xFE\xFF"; // Byte Order Mark (BOM)
         }
-        $outstr .= mb_convert_encoding($str, 'UTF-16BE', 'UTF-8');
+        $outstr .= mb_convert_encoding((string) $str , 'UTF-16BE', 'UTF-8');
         return $outstr;
     }
 
 // Converts UTF-8 strings to codepoints array
     function UTF8StringToArray($str) {
         $out = array();
+        $str = (string) $str;
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
             $uni = -1;
