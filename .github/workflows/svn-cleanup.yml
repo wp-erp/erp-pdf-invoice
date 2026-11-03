@@ -1,0 +1,24 @@
+name: One-off wp.org SVN cleanup
+on:
+  push:
+    branches:
+      - fix/wporg-zipfile
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove build leftovers from trunk and tags/1.2.2
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        run: |
+          which svn || (sudo apt-get update -q && sudo apt-get install -y -q subversion)
+          svn co --depth immediates https://plugins.svn.wordpress.org/erp-pdf-invoice svn
+          cd svn
+          svn update --set-depth immediates trunk
+          svn update --set-depth immediates tags/1.2.2
+          for p in trunk/zipfile trunk/erp-pdf-invoice.zip tags/1.2.2/zipfile tags/1.2.2/erp-pdf-invoice.zip; do
+            svn rm --force "$p"
+          done
+          svn stat
+          svn ci -m "Remove build leftovers (zipfile/, erp-pdf-invoice.zip) from 1.2.2" --no-auth-cache --non-interactive --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
